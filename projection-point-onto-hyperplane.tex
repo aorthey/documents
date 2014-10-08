@@ -1,0 +1,85 @@
+\documentclass{article}
+%modified code for hyperplane from \url{http://tex.stackexchange.com/q/104529/86}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usetikzlibrary{%
+  decorations.pathreplacing
+}
+
+\makeatletter
+\tikzset{
+  xyz frame/.code n args={3}{%
+    \begingroup
+    \tikz@scan@one@point\pgfutil@firstofone#1\relax
+    \pgf@xa=\pgf@x
+    \pgf@ya=\pgf@y
+    \tikz@scan@one@point\pgfutil@firstofone#2\relax
+    \pgf@xb=\pgf@x
+    \pgf@yb=\pgf@y
+    \tikz@scan@one@point\pgfutil@firstofone#3\relax
+    \edef\tikz@marshall{\noexpand\endgroup\noexpand\pgfsetxvec{\noexpand\pgfpoint{\the\pgf@xa}{\the\pgf@ya}}%
+      \noexpand\pgfsetyvec{\noexpand\pgfpoint{\the\pgf@xb}{\the\pgf@yb}}%
+      \noexpand\pgfsetzvec{\noexpand\pgfpoint{\the\pgf@x}{\the\pgf@y}}}%
+    \tikz@marshall
+  },
+  on layer/.code={
+    \pgfonlayer{#1}\begingroup
+    \aftergroup\endpgfonlayer
+    \aftergroup\endgroup
+  },
+}
+\makeatother
+
+\pgfdeclarelayer{behind}
+\pgfdeclarelayer{in front}
+\pgfsetlayers{behind,main,in front}
+
+\begin{document}
+\section{Geometrical visualization of the projection of a point onto a hyperplane}
+\def\R{\ensuremath{\mathbb{R}}}
+
+Given a point $v_i \in \R^N$, the orthogonal projection onto a hyperplane $H=\{x\in \R^N| a^Tx=b\}$ can be obtained as follows: First we observe that the projection has to along the direction of the hyperplane normal from $v_i$, i.e. the we will obtain a form of $v_i' = v_i - \lambda a$, whereby $\lambda$ is the distance of $v_i$ towards the hyperplane. Since the distance of the hyperplane to the origin along $a$ is given by $b$, and the distance of $v_i$ to the origin along $a$ is given by $v_i^Ta$, we obtain the distance $\lambda = v_i^Ta-b$. 
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[xyz frame={(0,0,-1)}{(0,1,0)}{(1,0,0)}]
+\def\endZ{8}
+\def\lowY{-1}
+%%%axes
+\draw[->] (0,0,0) -- (0,0,1)node[right,font=\tiny] {Y};
+\draw[->] (0,0,0) -- (0,1,0)node[left,font=\tiny] {Z};
+\draw[->] (0,0,0) -- (-1,0,0)node[below, font=\tiny] {X};
+%%%hyperplane
+\draw (-2.5,6.5,1.5)node[right, font=\footnotesize] {$a^Tx=b$};
+\filldraw[fill=lightgray,fill opacity=0.8] (2.5,1,3) -- (2.5,6.5,3) --  (-3.5,6.5,3) -- (-3.5,1,3) -- cycle;
+
+%%% v_i
+\draw[on layer=behind] (0,0,0) -- (0,2,3);
+\draw[on layer=in front, ->]  (0,2,3) -- (0,5,\endZ) node[right] {$v_i$};
+
+%%% normal a
+\draw[->]  (0,2,3) -- (0,2,5) node[below]{$a$};
+
+%% v_i'
+\draw[on layer=behind, -> ]  (0,0,0) -- (0,5,3);
+\draw[<-]  (0,5,3)node[below]{$v_i'$} -- (0,5,\endZ);
+\draw[decoration={brace},decorate,yshift=5pt]  (0,5,3) -- (0,5,\endZ)node[pos=0.5,above]{$-(v_i^Ta-b)a$};
+
+%% plane to projection
+\draw[-,dashed]  (0,2,3) -- (0,2,\endZ);
+%% projection to v_i
+\draw[-,dashed]  (0,5,\endZ) -- (0,2,\endZ);
+
+%% lower annotations
+\draw[-,dashed]  (0,0,0) -- (0,\lowY,0);
+\draw[decoration={brace,mirror},decorate,yshift=-2pt]  (0,\lowY,0) -- (0,\lowY,3) node[pos=0.5,below]{$b$};
+\draw[-,dashed]  (0,2,3) -- (0,\lowY,3);
+\draw[decoration={brace,mirror},decorate,yshift=-0.6cm]  (0,\lowY,0) -- (0,\lowY,\endZ) node[pos=0.5,below]{$v_i^Ta$};
+\draw[decoration={brace,mirror},decorate,yshift=-2pt]  (0,\lowY,3) -- (0,\lowY,\endZ) node[pos=0.5,below]{$v_i^Ta-b$};
+\draw[-,dashed]  (0,2,\endZ) -- (0,\lowY,\endZ);
+
+\end{tikzpicture}
+\caption{Geometrical visualization that the orthogonal projection of a point $v_i$ onto a hyperplane defined by $a^Tx=b$ is given by $v_i' = v_i - (v_i^Ta-b)a$.}
+\end{figure}
+\end{document}

@@ -163,8 +163,8 @@ we are operating on our surface element, we are interested in finding the normal
 vectors, lying on the surface and pointing towards the intersection of the other
 hyperplanes. Meaning, instead of having $v_i = y + R\frac{a_i}{\|a_i\|}$, we
 need to find the orthogonal projection of $a_i$ onto the surface element, which
-we get by $v_i = y + R\frac{a_i^T a_i'}{\|a_i'\|}$ with $a_i' = a_i -
-(a_i^Ta_p)a_p$, $a_i'$ being the orthogonal projected vector. The resulting
+we get by $v_i = y + R\frac{a_i'}{\|a_i'\|}$ with $a_i' = a_i -
+(a_i^Ta_p)a_p$ being the orthogonal projected vector. The resulting
 linear optimization problem is
 
 \begin{equation}
