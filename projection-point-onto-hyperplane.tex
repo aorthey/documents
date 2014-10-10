@@ -39,7 +39,16 @@
 \section{Geometrical visualization of the projection of a point onto a hyperplane}
 \def\R{\ensuremath{\mathbb{R}}}
 
-Given a point $v_i \in \R^N$, the orthogonal projection onto a hyperplane $H=\{x\in \R^N| a^Tx=b\}$ can be obtained as follows: First we observe that the projection has to along the direction of the hyperplane normal from $v_i$, i.e. the we will obtain a form of $v_i' = v_i - \lambda a$, whereby $\lambda$ is the distance of $v_i$ towards the hyperplane. Since the distance of the hyperplane to the origin along $a$ is given by $b$, and the distance of $v_i$ to the origin along $a$ is given by $v_i^Ta$, we obtain the distance $\lambda = v_i^Ta-b$. 
+\subsection{Orthogonal Projection}
+
+Given a point $v_i \in \R^N$, the orthogonal projection onto a hyperplane
+$H=\{x\in \R^N| a^Tx=b, \|a\|=1\}$ can be obtained as follows: First we observe
+that the projection has to be along the direction of the hyperplane normal from
+$v_i$, i.e. the we will obtain a form of $v_i' = v_i - \lambda a$, whereby
+$\lambda$ is the distance of $v_i$ towards the hyperplane. Since the distance of
+the hyperplane to the origin along $a$ is given by $b$, and the distance of
+$v_i$ to the origin along $a$ is given by $v_i^Ta$, we obtain the distance
+$\lambda = v_i^Ta-b$. 
 
 \begin{figure}[h]
 \centering
@@ -81,5 +90,46 @@ Given a point $v_i \in \R^N$, the orthogonal projection onto a hyperplane $H=\{x
 
 \end{tikzpicture}
 \caption{Geometrical visualization that the orthogonal projection of a point $v_i$ onto a hyperplane defined by $a^Tx=b$ is given by $v_i' = v_i - (v_i^Ta-b)a$.}
+
 \end{figure}
+
+\subsection{Projection along line $L$}
+
+Let $L=\{x \in \R^N| x = c + \lambda (d-c)\}$ be a line through point $c,d \in
+\R^N$. Let $H=\{x\in \R^N| a^Tx=b\}$ be the hyperplane. The intersection of $L$
+and $H$ is given by
+\begin{equation}
+        \begin{aligned}
+                a^T(c+\lambda(d-c)) &= b\\
+                   \lambda a^T(d-c) &= b - a^Tc\\
+                            \lambda &= \frac{b-a^Tc}{a^T(d-c)} &|a^T(d-c)\neq 0
+        \end{aligned}
+\end{equation}
+Thus, the intersection of $L$ and $H$ is given by the point 
+
+\begin{equation}
+        \begin{aligned}
+                x_{LH} = c + \frac{b-a^Tc}{a^T(d-c)} (d-c)
+        \end{aligned}
+\end{equation}
+for the case that $a^T(d-c)\neq 0$. If
+$a^T(d-c)=0$, then the line is perpendicular to the plane normal, and thus
+parallel to the plane, i.e. either it does not intersect the plane, or it lies
+inside the hyperplane.
+
+\subsection{Special Case: Projection of a point $v \in \R^3$ along line parallel to
+z-axis}
+Let $v \in \R^3$ be given. 
+\begin{center}
+     $L=\{x \in \R^3| x = v - \lambda (0,0,1)^T\}$\\
+        $H=\{x\in \R^N| a^Tx=b\}$
+\end{center}
+Assume that $v \not\in H$, and $a^T(0,0,1)^T \neq 0$. Then $\lambda =
+\frac{b-a^Tv}{a^T(0,0,1)^T}$. And the projection of $v$ onto $H$ along $L$ is
+given by
+\begin{center}
+        $v' = v - \frac{b-a^Tv}{a^T(0,0,1)^T}(0,0,1)^T$
+\end{center}
+
+
 \end{document}
