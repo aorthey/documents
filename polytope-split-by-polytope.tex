@@ -1,0 +1,201 @@
+\documentclass{article}
+%modified code for hyperplane from \url{http://tex.stackexchange.com/q/104529/86}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{amsfonts}
+\usetikzlibrary{calc}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{decorations}
+\usetikzlibrary{decorations.markings}
+
+\makeatletter
+\tikzset{
+  xyz frame/.code n args={3}{%
+    \begingroup
+    \tikz@scan@one@point\pgfutil@firstofone#1\relax
+    \pgf@xa=\pgf@x
+    \pgf@ya=\pgf@y
+    \tikz@scan@one@point\pgfutil@firstofone#2\relax
+    \pgf@xb=\pgf@x
+    \pgf@yb=\pgf@y
+    \tikz@scan@one@point\pgfutil@firstofone#3\relax
+    \edef\tikz@marshall{\noexpand\endgroup\noexpand\pgfsetxvec{\noexpand\pgfpoint{\the\pgf@xa}{\the\pgf@ya}}%
+      \noexpand\pgfsetyvec{\noexpand\pgfpoint{\the\pgf@xb}{\the\pgf@yb}}%
+      \noexpand\pgfsetzvec{\noexpand\pgfpoint{\the\pgf@x}{\the\pgf@y}}}%
+    \tikz@marshall
+  },
+  on layer/.code={
+    \pgfonlayer{#1}\begingroup
+    \aftergroup\endpgfonlayer
+    \aftergroup\endgroup
+  },
+  circle path/.style={%
+    decoration={%
+      show path construction,
+      lineto code={%
+        \path [decoration={markings,
+          mark=at position 0 with {\fill[color=black] circle [radius=1pt];},
+          mark=at position 1 with {\fill[color=black] circle [radius=1pt];},
+        }, decorate] (\tikzinputsegmentfirst) -- (\tikzinputsegmentlast);
+      },
+    },
+    postaction=decorate
+  }
+}
+\makeatother
+
+\pgfdeclarelayer{behind}
+\pgfdeclarelayer{in front}
+\pgfsetlayers{behind,main,in front}
+
+\newcommand\plotPolytopeProjection[3]{
+        %\begin{tikzpicture}[xyz frame={(0,0,1)}{(0,1,0)}{(1,0,0)}]
+        \begin{tikzpicture}[xyz frame={(-1,0,0)}{(0,1,0)}{(0,0,1)}]
+
+        %%%axes
+        %\draw (5,0,0)node[left, font=\footnotesize] {$x$-$z$};
+        \coordinate (O1) at (-4,0,2);
+        \coordinate (O2) at (4,0,2);
+        \coordinate (O3) at (4,0,8);
+        \coordinate (O4) at (-4,0,8);
+        %\pgfdeclarelayer{foreground}
+        %\pgfsetlayers{main,foreground}
+        \fill[fill=black!10,opacity=0.8]  (O1) -- (O2) -- (O3) -- (O4) -- cycle;
+
+        \def\Xoffset{#1}
+        \def\Yoffset{#2}
+        \def\Zoffset{#3}
+
+        \coordinate (A) at (0,0,4);
+        \coordinate (B) at (-1,0,5);
+        \coordinate (C) at (-1,0,6);
+        \coordinate (D) at (0,0,6);
+        \coordinate (E) at (1,0,5.5);
+        \coordinate (F) at (1,0,4.5);
+        \coordinate (G) at (0, 0,4.5);
+        \coordinate (H) at (0, 0,5.5);
+        \coordinate (I) at (-0.8,0,5.5);
+
+        \coordinate (A) at ($(A) + (\Xoffset,0,\Zoffset)$);
+        \coordinate (B) at ($(B) + (\Xoffset,0,\Zoffset)$);
+        \coordinate (C) at ($(C) + (\Xoffset,0,\Zoffset)$);
+        \coordinate (D) at ($(D) + (\Xoffset,0,\Zoffset)$);
+        \coordinate (E) at ($(E) + (\Xoffset,0,\Zoffset)$);
+        \coordinate (F) at ($(F) + (\Xoffset,0,\Zoffset)$);
+        \coordinate (G) at ($(G) + (\Xoffset,0,\Zoffset)$);
+        \coordinate (H) at ($(H) + (\Xoffset,0,\Zoffset)$);
+        \coordinate (I) at ($(I) + (\Xoffset,0,\Zoffset)$);
+
+
+        \draw[fill=black!20,opacity=0.8, circle path]  (-1,0,3) -- (-3,0,5) -- (-3,0,6) -- (-1.5,0,7) -- (1,0,7) -- (2,0,5) -- (2,0,4) -- cycle;
+        \draw[fill=black!0,opacity=0.8, circle path]  (A) -- (B) -- (C) -- (D) -- (E) -- (F) -- cycle;
+        \coordinate (Ap) at ($(A) + (0,\Yoffset,0)$);
+        \coordinate (Bp) at ($(B) + (0,\Yoffset,0)$);
+        \coordinate (Cp) at ($(C) + (0,\Yoffset,0)$);
+        \coordinate (Dp) at ($(D) + (0,\Yoffset,0)$);
+        \coordinate (Ep) at ($(E) + (0,\Yoffset,0)$);
+        \coordinate (Fp) at ($(F) + (0,\Yoffset,0)$);
+        \coordinate (Gp) at ($(G) + (0,\Yoffset+1,0)$);
+        \coordinate (Hp) at ($(H) + (0,\Yoffset+1.3,0)$);
+        \coordinate (Ip) at ($(I) + (0,\Yoffset+0.5,0)$);
+
+        \draw[-,dashed] (A) -- (Ap);
+        \draw[-,dashed] (B) -- (Bp);
+        \draw[-,dashed] (C) -- (Cp);
+        \draw[-,dashed] (D) -- (Dp);
+        \draw[-,dashed] (E) -- (Ep);
+        \draw[-,dashed] (F) -- (Fp);
+        \draw[-,dashed] (G) -- (Gp);
+        \draw[-,dashed] (H) -- (Hp);
+        \draw[-,dashed] (I) -- (Ip);
+        \draw[fill=black](G) circle (1pt);
+        \draw[fill=black](H) circle (1pt);
+        \draw[fill=black](I) circle (1pt);
+        %% draw polygon hovering over the hyperplane
+        \def\colorPolygon{black!2}
+        \def\opacityPolygon{0.6}
+        \draw[fill=\colorPolygon,opacity=\opacityPolygon, circle path]  (Ap) -- (Bp) -- (Cp) -- (Dp) -- (Ep) -- (Fp) -- cycle;
+        \draw[fill=\colorPolygon,opacity=\opacityPolygon, circle path]  (Ap) -- (Fp) -- (Gp) -- cycle;
+        \draw[fill=\colorPolygon,opacity=\opacityPolygon, circle path]  (Fp) -- (Ep) -- (Hp) -- (Gp) -- cycle;
+        \draw[fill=\colorPolygon,opacity=\opacityPolygon, circle path]  (Ap) -- (Bp) -- (Gp) -- cycle;
+        \draw[fill=\colorPolygon,opacity=\opacityPolygon, circle path]  (Bp) -- (Ip) -- (Gp) -- cycle;
+        \draw[fill=\colorPolygon,opacity=\opacityPolygon, circle path]  (Ip) -- (Hp) -- (Gp) -- cycle;
+        \draw[fill=\colorPolygon,opacity=\opacityPolygon, circle path]  (Bp) -- (Cp) -- (Ip) -- cycle;
+        \draw[fill=\colorPolygon,opacity=\opacityPolygon, circle path]  (Cp) -- (Dp) -- (Hp) -- (Ip) -- cycle;
+        \draw[fill=\colorPolygon,opacity=\opacityPolygon, circle path]  (Dp) -- (Ep) -- (Hp) -- cycle;
+        \begin{scope}
+        \clip  (A) -- (B) -- (C) -- (D) -- (E) -- (F) -- cycle;
+        \def\Ylow{-9}
+        \coordinate (Ad) at ($(A) + (0,\Ylow,0)$);
+        \coordinate (Bd) at ($(B) + (0,\Ylow,0)$);
+        \coordinate (Cd) at ($(C) + (0,\Ylow,0)$);
+        \coordinate (Dd) at ($(D) + (0,\Ylow,0)$);
+        \coordinate (Ed) at ($(E) + (0,\Ylow,0)$);
+        \coordinate (Fd) at ($(F) + (0,\Ylow,0)$);
+        \coordinate (Gd) at ($(G) + (0,\Ylow,0)$);
+        \coordinate (Hd) at ($(H) + (0,\Ylow,0)$);
+        \coordinate (Id) at ($(I) + (0,\Ylow,0)$);
+        \draw[-,dashed] (A) -- (Ad);
+        \draw[-,dashed] (B) -- (Bd);
+        \draw[-,dashed] (C) -- (Cd);
+        \draw[-,dashed] (D) -- (Dd);
+        \draw[-,dashed] (E) -- (Ed);
+        \draw[-,dashed] (F) -- (Fd);
+        \draw[-,dashed] (G) -- (Gd);
+        \draw[-,dashed] (H) -- (Hd);
+        \draw[-,dashed] (I) -- (Id);
+        \end{scope}
+        \draw[->] (O1) -- ($(O1) + (0,0,1)$)node[right,font=\tiny] {Z};
+        \draw[->] (O1) -- ($(O1) + (0,1,0)$)node[left,font=\tiny] {Y};
+        \draw[->] (O1) -- ($(O1) + (1,0,0)$)node[above, font=\tiny] {X};
+
+        \end{tikzpicture}
+}
+
+\begin{document}
+\def\R{\ensuremath{\mathbb{R}}}
+\section{Projecting an $N$ dimensional polytope onto a $N-1$ dimensional
+polytope}
+Let us visualize this by projecting a $3$-d polytope onto a plane.
+\begin{figure}
+        \centering
+                \plotPolytopeProjection{0}{2}{0}
+
+\end{figure}
+\begin{figure*}[t!]
+    \centering
+    \def\sizeFig{5cm}
+    \begin{subfigure}[t]{0.33\linewidth}
+        \centering
+        \resizebox{\sizeFig}{!}{
+        \plotPolytopeProjection{2.5}{1.5}{1.5}
+        }
+        \caption{Polytope does not intersect walkable surface: No change}
+    \end{subfigure}%
+    ~ 
+    \begin{subfigure}[t]{0.33\linewidth}
+        \centering
+        \resizebox{\sizeFig}{!}{
+        \plotPolytopeProjection{1}{2}{-1.5}
+        }
+        \caption{Polytope intersects, but not all vertices are inside the
+        interior of the walkable surface: We need to split the walkable surface,
+to get a convex decomposition.}
+    \end{subfigure}%
+    ~ 
+    \begin{subfigure}[t]{0.33\textwidth}
+        \centering
+        \resizebox{\sizeFig}{!}{
+        \plotPolytopeProjection{0}{2}{0}
+        }
+        \caption{Polytope intersects and all vertices are inside the interior of
+        the walkable surface: We need to split the surface, and the topology of
+the trajectory classes changes.}
+    \end{subfigure}
+    \caption{Caption}
+\end{figure*}
+
+\end{document}
