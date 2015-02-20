@@ -157,15 +157,24 @@
 
 \begin{document}
 \def\R{\ensuremath{\mathbb{R}}}
-\section{Projecting an $N$ dimensional polytope onto a $N-1$ dimensional
+\title{Projecting of an $N$ dimensional polytope onto a $N-1$ dimensional
 polytope}
-Let us visualize this by projecting a $3$-d polytope onto a plane.
-\begin{figure}
+\author{Andreas Orthey}
+\date{}
+\maketitle
+
+We will visualize here the three different ways of how the projection of a $3$-d
+polytope $p$ onto a $2$-d polytope $q$ can affect the topology of the $q$. The
+three cases are: I) $p$ is not intersecting $q$ and does not change the
+topology, II) $p$ is intersecting the $q$ and the boundary of $q$, but is not
+changing the topology of the $q$, and III) $p$ cuts a hole into $q$ changing the
+topology of $q$.
+
+\begin{figure}[h]
         \centering
                 \plotPolytopeProjection{0}{2}{0}
-
 \end{figure}
-\begin{figure*}[t!]
+\begin{figure*}[h!]
     \centering
     \def\sizeFig{5cm}
     \begin{subfigure}[t]{0.33\linewidth}
@@ -195,7 +204,6 @@ to get a convex decomposition.}
         the walkable surface: We need to split the surface, and the topology of
 the trajectory classes changes.}
     \end{subfigure}
-    \caption{Caption}
 \end{figure*}
 
 \end{document}

@@ -1,0 +1,102 @@
+\documentclass{article}
+
+\usepackage{filecontents}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage[bookmarks=true]{hyperref}
+\input{util/util.tex}
+\input{util/util-tikz.tex}
+\input{util/theorem_proof_journal.tex}
+
+
+\def\R{\ensuremath{\mathbb{R}}}
+\begin{filecontents}{tmp.bib}
+@book{boyd,
+  title={\href{http://stanford.edu/~boyd/cvxbook/}{Convex Optimization}},
+  author={Boyd, Stephen and Vandenberghe, Lieven},
+  year={2004},
+  publisher={Cambridge university press}
+}
+
+\end{filecontents}
+
+\begin{document} 
+
+\title{Geometry of quaders on top of surface elements of polytopes} 
+\author{Andreas Orthey}
+\date{}
+\maketitle
+\input{figure-stack-of-boxes-on-surface-element.tex}
+
+\begin{definition}
+        Let an object $O_i$ be a convex bounded polytope 
+        \begin{equation}
+                \begin{aligned}
+                        O_i=\{x\in \R^3| \ajit x\leq \bji, \|\aji\|_2=1,
+                        j\in[1,M_i]\}
+                \end{aligned}
+        \end{equation}
+        with $M_i$ the number of halfspaces.
+\end{definition}
+
+Let us take one surface element $\sip$ of $O_i$, given by
+\begin{definition}[Surface Element]
+        Given an object $O_i$, we call
+        
+        \begin{equation}
+                \begin{aligned}
+                        S_i^p = \{x \in \R^3|&\apit x = \bpi, \ajit x \leq \bji, \\
+                                             &j=1,\cdots,p-1,p+1,\cdots,M_i\}
+                \end{aligned}
+        \end{equation}
+        the $p$-th surface element of object $O_i$, and $\api$ is the
+        surface normal with distance $\bpi$ to the origin.
+\end{definition}
+
+A quader on top of $\sip$ can now be defined as
+
+\begin{definition}
+        The quader $\bip(\Delta_L, \Delta_U)$ of height $\delta=\Delta_U-\Delta_L$ located
+        with distance $\Delta_L$ above $\sip$ is defined as the set of points in
+
+        \begin{equation}
+                \begin{aligned}
+                        \bip(\Delta_L, \Delta_U) = \{ x\in \R^3| -&\apit x \leq -\bpi-\Delta_L, \\
+                                       &\apit x \leq \bpi + \Delta_U, \\
+                                        &\ajipt x \leq \bjip,\\
+                                        &{\scriptstyle j=1,\cdots,p-1,p+1,\cdots,M_i}\}
+                \end{aligned}
+        \end{equation}
+
+        with $\ajip,\bjip$ belonging to the projected hyperplane $j$, with 
+        
+        \begin{equation}
+                \begin{aligned}
+                        \ajip &= \aji - (\ajit \api)\api\\
+                        \bjip &= \ajipt \xji
+                \end{aligned}
+        \end{equation}
+        whereby $\xji$ is one point on the intersection between hyperplane $H_j$
+        and surface element $\sip$
+        \begin{equation}
+                \begin{aligned}
+                        \xji \in \{x\in \R^3| &\ajit x = \bji, \\
+                            &\akit y \leq \bki, \\
+                            &{\scriptstyle k=1,\cdots,j-1,j+1,\cdots,p-1,p+1,\cdots,M_i}\}, \\
+                            &\apit y = \bpi,\\
+                            &\| x-y \|^2 = 0\}
+                \end{aligned}
+        \end{equation}
+        Note that $x_0$ does not exist, if there is no common border between $\sip$ and
+        $H_j$, in which case $\ajip,\bjip$ do not exist, i.e. they are not
+        halfspace intersections of the box.
+        %which corresponds to a rotation of the hyperplane, until $a_j' \perp
+        %a_p$
+\end{definition}
+
+
+\bibliographystyle{plainnat}
+\bibliography{tmp} 
+\end{document}
+
