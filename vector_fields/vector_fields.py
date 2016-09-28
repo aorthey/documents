@@ -11,8 +11,11 @@ y, x = np.mgrid[10:-10:100j, 10:-10:100j]
 #p2 = -np.exp(-(x**2)/1000)
 #p3 = y/50
 
-p1 = (x**2/1000 + y**2/1000)
-p3 = -(x**2/1000 + y**2/1000)
+#p1 = (x**2/1000 + y**2/1000)
+#p3 = -(x**2/1000 + y**2/1000)
+
+p1 = -x/50 + y/50
+p3 = y/50 + x/50
 def PlotVectorField(ax, p, x, y):
         #ax.streamplot(x, y, dx, dy, linewidth=500*np.hypot(dx, dy),
                       #color=p, density=1.2, cmap='gist_earth')
@@ -20,12 +23,12 @@ def PlotVectorField(ax, p, x, y):
         #ax.streamplot(x, y, dx, dy, linewidth=100*np.hypot(dx, dy),
                       #color=p, density=1.2, cmap=plt.cm.autumn)
         ax.streamplot(x, y, dx, dy, linewidth=100*np.hypot(dx, dy),
-                      color='r', density=1.2)
+                      color='r', density=0.5)
         cont = ax.contour(x, y, p, cmap='gist_earth', vmin=p.min(), vmax=p.max())
         labels = ax.clabel(cont)
         plt.setp(labels, path_effects=[withStroke(linewidth=8, foreground='w')])
-        ax.plot([-10,10],[3,-3],'-k',linewidth=5)
-        ax.plot(0.0,0.0,'ok',markersize=10)
+        ax.plot([-10,10],[3,-3],'-k',linewidth=8,zorder=20)
+        ax.plot(0.0,0.0,'ok',markersize=15)
         ax.set_ylim([-10,10])
         ax.set_xlim([-10,10])
 
@@ -33,9 +36,9 @@ fig, (ax1,ax3) = plt.subplots(1,2)
 fig.patch.set_facecolor('white')
 
 PlotVectorField(ax1, p1, x, y)
-ax1.set(aspect=1, title='Unstable Singular Point Vector Field\n(Source)')
 PlotVectorField(ax3, p3, x, y)
-ax3.set(aspect=1, title='Stable Singular Point Vector Field\n(Sink)')
+ax1.set(aspect=1, title='Regular Point Vector Field')
+ax3.set(aspect=1, title='Regular Point Vector Field')
 
 plt.show()
 
